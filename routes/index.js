@@ -9,9 +9,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-function resolveHostUrl(req, defaultHost) {
-    return req.query.node && req.query.node === '8' ? 'https://sandbox.auth0-extend.com' : defaultHost;
-}
+var HOST_URL = 'https://sandbox.auth0-extend.com';
 
 router.set('views', path.join(__dirname, '..', 'views'));
 router.set('view engine', 'ejs');
@@ -25,9 +23,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/leads', function(req, res) {
-    res.render('index', {
-        nodeVersion: req.query.node
-    });
+    res.render('index');
 });
 
 router.get('/settings', function(req, res, next) {
@@ -36,7 +32,7 @@ router.get('/settings', function(req, res, next) {
     return async.waterfall([
         (cb) => extend.mapTenantToIsolationScope(req, cb),
         (webtaskContext, cb) => {
-            webtaskContext.hostUrl = resolveHostUrl(req, webtaskContext.hostUrl);
+            webtaskContext.hostUrl = HOST_URL;
             return res.render('settings', { 
                 webtaskContext: webtaskContext, 
                 randomBytes: crypto.randomBytes(32).toString('hex'),
@@ -58,7 +54,7 @@ router.post('/api/leads', bodyParser.json(), function (req, res, next) {
     return async.waterfall([
         (cb) => extend.mapTenantToIsolationScope(req, cb),
         (webtaskContext, cb) => {
-            webtaskContext.hostUrl = resolveHostUrl(req, webtaskContext.hostUrl);
+            webtaskContext.hostUrl = HOST_URL;
             return extend.discoverExtensions(webtaskContext, 'on-new-lead', cb);
         },
         (extensions, cb) => extend.invokeExtension(extensions, req.body, cb),

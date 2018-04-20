@@ -5,6 +5,8 @@ var routes = require('./routes/index');
 
 var app = express();
 
+app.set('view engine', 'ejs');
+
 app.use(logger('dev'));
 app.use('/', routes);
 
