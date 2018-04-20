@@ -1,0 +1,22 @@
+{
+  "name": "zerocrm",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "@auth0extend/zerocrm-middleware": "^1.0.0",
+    "async": "^2.1.5",
+    "body-parser": "~1.8.1",
+    "cookie-parser": "~1.3.3",
+    "debug": "~2.0.0",
+    "dotenv": "^4.0.0",
+    "ejs": "~2.5.5",
+    "express": "~4.9.0",
+    "jws": "^3.1.4",
+    "morgan": "~1.3.0",
+    "serve-favicon": "~2.1.3",
+    "superagent": "^3.5.2"
+  }
+}

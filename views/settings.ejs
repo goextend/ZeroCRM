@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Zero CRM">
+  <link rel="icon" type="image/png" href="https://auth0.com/extend/favicon-16x16.png" sizes="16x16">
+  <title>Zero CRM</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js"></script>
+  <script src="https://cdn.auth0.com/auth0-extend/1/extend-editor.js"></script>
+  <script src="javascripts/extend.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/fonts/340567/BCE5F33B94B3B1134.css"/>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css"/>
+</head>
+<body>
+  <div class="crm">
+    <div class="sidebar">
+      <div class="logo">
+        <span>Zero CRM</span>
+      </div>
+      <ol>
+        <li><a href="."><i class="icon-budicon-289"></i>Leads</a></li>
+        <li><i class="icon-budicon-290"></i>Accounts</li>
+        <li><i class="icon-budicon-209"></i>Opportunities</li>
+        <li><i class="icon-budicon-706"></i>Reports</li>
+        <li class="active"><a href="settings"><i class="icon-budicon-329"></i>Settings</a></li>
+      </ol>
+      <div class="banner">
+        <h5>Ready to implement Extend?</h5>
+        <p>Get started by embedding our editor right in your application.</p>
+        <a href="https://auth0.com/extend/try" target="_blank">TRY AUTH0 EXTEND</a>
+      </div>
+    </div>
+    <div class="container">
+      <div class="header">
+        <ol>
+          <li>
+            <a href="https://auth0.com/extend/docs/getting-started#sample-application" target="_blank"><i class="icon-budicon-754"></i>Documentation</a>
+          </li>
+          <li>
+            <a href="https://github.com/auth0/extend/fork" target="_blank"><i class="icon-1392070209-icon-social-github"></i>Fork on GitHub</a>
+          </li>
+        </ol>
+        <div class="user">
+          <div class="avatar"></div>
+          <i class="icon-budicon-460"></i>
+        </div>
+      </div>
+     
+      <div class="content" id="editor-content" style="display: none;">
+          <a class="back" href="settings"><i class="icon-budicon-463"></i>Back to settings</a>
+          <h1 class="js-content-title"></h1>
+          <h2 class="js-content-description"></h2>
+          <div id="extend-editor"></div>
+      </div>
+      
+      <div class="content" id="settings-content">
+        <h1>Settings</h1>
+        <div class="list-container">
+          <h2>Custom Actions</h2>
+
+          <div class="list">
+            <div class="list-item">
+                <div class="actions">
+                  <button id="onnewlead"><i class="icon-budicon-263"></i>Edit</button>
+                  <button><i class="icon-budicon-266"></i>Delete</button>
+                </div>
+                <h3>On new lead</h3>
+                <p>Modify lead information before it is stored in the system</p>
+            </div>
+            <div class="list-item">
+                <div class="actions">
+                  <button id="onopportunitychanged"><i class="icon-budicon-263"></i>Edit</button>
+                  <button><i class="icon-budicon-266"></i>Delete</button>
+                </div>
+                <h3>On opportunity changed</h3>
+                <p>Inspect and modify opportunity information when it is changed</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var webtaskContext = <%- JSON.stringify(webtaskContext) %>;
+    var randomBytes = '<%- randomBytes %>';
+
+    // Preload Extend Editor
+    ExtendEditor
+        .preload(createExtendEditorConfig({ webtaskContext }), true);
+
+    function displayExtendEditor(extensibilityPoint) {
+      $('#settings-content').hide();
+      $('.spinner-container').show();
+      $('#editor-content').show();
+
+      ExtendEditor.show(document.getElementById('extend-editor'), createRuntimeConfig({
+        randomBytes: randomBytes, 
+        extensibilityPoint: extensibilityPoint
+      }));
+    }
+    
+    $(function () {
+      $('#onnewlead').click(function () {
+        displayExtendEditor('on-new-lead');
+        $('.js-content-title').text('On new lead');
+        $('.js-content-description').text('Modify lead information before it is stored in the system');
+      });
+      $('#onopportunitychanged').click(function () {
+        displayExtendEditor('on-opportunity-changed');
+        $('.js-content-title').text('On opportunity changed');
+        $('.js-content-description').text('Inspect and modify opportunity information when it is changed');
+      });    
+    });
+  </script>
+</body>
+</html>

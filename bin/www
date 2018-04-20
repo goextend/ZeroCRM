@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+require('dotenv').config();
+var debug = require('debug')('zerocrm');
+var app = require('../app');
+var config = require('../lib/config');
+
+if (!config.masterWebtaskToken) {
+    throw new Error(`Missing MASTER_WEBTASK_TOKEN environment variable. Please see https://github.com/auth0/extend/wiki/Auth0-Extend-User%27s-Guide#sample-application for more information.`);
+}
+
+app.set('port', process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+});
