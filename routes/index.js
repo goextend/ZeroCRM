@@ -9,8 +9,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var HOST_URL = 'https://sandbox.auth0-extend.com';
-
 router.set('views', path.join(__dirname, '..', 'views'));
 router.set('view engine', 'ejs');
 router.use(bodyParser.json());
@@ -32,7 +30,6 @@ router.get('/settings', function(req, res, next) {
     return async.waterfall([
         (cb) => extend.mapTenantToIsolationScope(req, cb),
         (webtaskContext, cb) => {
-            webtaskContext.hostUrl = HOST_URL;
             return res.render('settings', { 
                 webtaskContext: webtaskContext, 
                 randomBytes: crypto.randomBytes(32).toString('hex'),
@@ -54,7 +51,6 @@ router.post('/api/leads', bodyParser.json(), function (req, res, next) {
     return async.waterfall([
         (cb) => extend.mapTenantToIsolationScope(req, cb),
         (webtaskContext, cb) => {
-            webtaskContext.hostUrl = HOST_URL;
             return extend.discoverExtensions(webtaskContext, 'on-new-lead', cb);
         },
         (extensions, cb) => extend.invokeExtension(extensions, req.body, cb),
