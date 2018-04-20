@@ -88,6 +88,10 @@ html, body {
   flex-direction: row;
 }
 
+.crm.with-node-banner {
+  height: calc(100% - 43px);
+}
+
 .crm .container .header {
   order: 1;
   height: 74px;

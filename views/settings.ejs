@@ -4,15 +4,18 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="Zero CRM">
   <link rel="icon" type="image/png" href="https://auth0.com/extend/favicon-16x16.png" sizes="16x16">
+  <meta name="description" content="Zero CRM">
   <title>Zero CRM</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/3.5.2/superagent.min.js"></script>
   <script src="https://cdn.auth0.com/auth0-extend/1/extend-editor.js"></script>
   <script src="javascripts/extend.js"></script>
+  <script src="javascripts/trip.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/fonts/340567/BCE5F33B94B3B1134.css"/>
   <link rel="stylesheet" type="text/css" href="stylesheets/style.css"/>
+  <link rel="stylesheet" type="text/css" href="stylesheets/trip.css"/>
 </head>
 <body>
   <div class="crm">
@@ -21,11 +24,11 @@
         <span>Zero CRM</span>
       </div>
       <ol>
-        <li><a href="."><i class="icon-budicon-289"></i>Leads</a></li>
+        <li><a href="leads<%= nodeVersion === '8' ? '?node=8' : '' %>"><i class="icon-budicon-289"></i>Leads</a></li>
         <li><i class="icon-budicon-290"></i>Accounts</li>
         <li><i class="icon-budicon-209"></i>Opportunities</li>
         <li><i class="icon-budicon-706"></i>Reports</li>
-        <li class="active"><a href="settings"><i class="icon-budicon-329"></i>Settings</a></li>
+        <li class="active tutorial step6"><a href="settings<%= nodeVersion  === '8' ? '?node=8' : '' %>"><i class="icon-budicon-329"></i>Settings</a></li>
       </ol>
       <div class="banner">
         <h5>Ready to implement Extend?</h5>
@@ -35,6 +38,15 @@
     </div>
     <div class="container">
       <div class="header">
+        <% if(nodeVersion !== '8'){ %>
+          <div onclick="switchNodeVersion('8')" class="node8">
+            <a href="#">Switch to <strong>Node 8</strong></a>
+          </div>
+        <% } else { %>
+          <div onclick="switchNodeVersion('4')" class="node8">
+            <a href="#">Switch back to <strong>Node 4</strong></a>
+          </div>
+        <% } %>
         <ol>
           <li>
             <a href="https://auth0.com/extend/docs/getting-started#sample-application" target="_blank"><i class="icon-budicon-754"></i>Documentation</a>
@@ -50,10 +62,10 @@
       </div>
      
       <div class="content" id="editor-content" style="display: none;">
-          <a class="back" href="settings"><i class="icon-budicon-463"></i>Back to settings</a>
+          <a class="back" href="settings<%= nodeVersion  === '8' ? '?node=8' : '' %>"><i class="icon-budicon-463"></i>Back to settings</a>
           <h1 class="js-content-title"></h1>
           <h2 class="js-content-description"></h2>
-          <div id="extend-editor"></div>
+          <div id="extend-editor" class="tutorial step2"></div>
       </div>
       
       <div class="content" id="settings-content">
@@ -64,7 +76,7 @@
           <div class="list">
             <div class="list-item">
                 <div class="actions">
-                  <button id="onnewlead"><i class="icon-budicon-263"></i>Edit</button>
+                  <button id="onnewlead" class="tutorial step1"><i class="icon-budicon-263"></i>Edit</button>
                   <button><i class="icon-budicon-266"></i>Delete</button>
                 </div>
                 <h3>On new lead</h3>
@@ -85,6 +97,26 @@
   </div>
 
   <script>
+    var storage = window.localStorage;
+
+    function switchNodeVersion (version) {
+      var href = window.location.href;
+
+      if (storage) {
+        storage.setItem('ZeroCRMNodeVersion', version);
+      }
+
+      if (version == 8 && (typeof qs('node') === 'undefined' || qs('node') != 8)) {
+        window.location.href = href + (href.indexOf('?') === -1 ? '?' : '&') + 'node=8'
+      } else {
+        window.location.href = href.split('?')[0] + (href.indexOf('mode=tutorial') >= 0 ? '?mode=tutorial' : '');
+      }
+    };
+
+    var trip = createSettingsTutorial();
+
+    trip.start();
+
     var webtaskContext = <%- JSON.stringify(webtaskContext) %>;
     var randomBytes = '<%- randomBytes %>';
 
@@ -101,9 +133,19 @@
         randomBytes: randomBytes, 
         extensibilityPoint: extensibilityPoint
       }));
+      trip.next(1);
     }
     
     $(function () {
+      if (storage) {
+        var version = storage.getItem('ZeroCRMNodeVersion');
+
+        if (version == 8 && (typeof qs('node') === 'undefined' || qs('node') != 8)) {
+          var href = window.location.href;
+          window.location.href = href + (href.indexOf('?') === -1 ? '?' : '&') + 'node=8'
+        }
+      }
+
       $('#onnewlead').click(function () {
         displayExtendEditor('on-new-lead');
         $('.js-content-title').text('On new lead');

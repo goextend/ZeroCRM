@@ -7,6 +7,11 @@ var extend = require('../lib/extend');
 var config = require('../lib/config');
 var path = require('path');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+
+function resolveHostUrl(req, defaultHost) {
+    return req.query.node && req.query.node === '8' ? 'https://sandbox.auth0-extend.com' : defaultHost;
+}
 
 router.set('views', path.join(__dirname, '..', 'views'));
 router.set('view engine', 'ejs');
@@ -16,7 +21,13 @@ router.use(cookieParser());
 router.use(express.static(path.join(__dirname, '..', 'public')));
 
 router.get('/', function(req, res) {
-    res.render('index', { });
+    res.redirect(req.originalUrl + `leads`);
+});
+
+router.get('/leads', function(req, res) {
+    res.render('index', {
+        nodeVersion: req.query.node
+    });
 });
 
 router.get('/settings', function(req, res, next) {
@@ -24,15 +35,21 @@ router.get('/settings', function(req, res, next) {
 
     return async.waterfall([
         (cb) => extend.mapTenantToIsolationScope(req, cb),
-        (webtaskContext, cb) => res.render('settings', { 
-            webtaskContext: webtaskContext, 
-            randomBytes: crypto.randomBytes(32).toString('hex')
-        })
+        (webtaskContext, cb) => {
+            webtaskContext.hostUrl = resolveHostUrl(req, webtaskContext.hostUrl);
+            return res.render('settings', { 
+                webtaskContext: webtaskContext, 
+                randomBytes: crypto.randomBytes(32).toString('hex'),
+                nodeVersion: req.query.node
+            });
+        }
     ], next);
 });
 
 router.get('/settings-old', function(req, res, next) {
-    return res.render('settings_old', {});
+    return res.render('settings_old', {
+        nodeVersion: req.query.node
+    });
 });
 
 router.post('/api/leads', bodyParser.json(), function (req, res, next) {
@@ -40,7 +57,10 @@ router.post('/api/leads', bodyParser.json(), function (req, res, next) {
 
     return async.waterfall([
         (cb) => extend.mapTenantToIsolationScope(req, cb),
-        (webtaskContext, cb) => extend.discoverExtensions(webtaskContext, 'on-new-lead', cb),
+        (webtaskContext, cb) => {
+            webtaskContext.hostUrl = resolveHostUrl(req, webtaskContext.hostUrl);
+            return extend.discoverExtensions(webtaskContext, 'on-new-lead', cb);
+        },
         (extensions, cb) => extend.invokeExtension(extensions, req.body, cb),
         (result, cb) => {
             // This is the place where any application-specific processing of the 

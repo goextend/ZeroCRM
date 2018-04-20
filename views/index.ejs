@@ -9,24 +9,25 @@
   <title>Zero CRM</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="javascripts/extend.js"></script>
+  <script src="javascripts/trip.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/fonts/340567/BCE5F33B94B3B1134.css"/>
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="https://cdn.auth0.com/fonts/340567/BCE5F33B94B3B1134.css"/>
   <link rel="stylesheet" type="text/css" href="stylesheets/style.css"/>
+  <link rel="stylesheet" type="text/css" href="stylesheets/trip.css"/>
 </head>
 <body>
-
   <div class="crm">
     <div class="sidebar">
       <div class="logo">
         <span>Zero CRM</span>
       </div>
       <ol>
-        <li class="active"><a href="."><i class="icon-budicon-289"></i>Leads</a></li>
+        <li class="active"><a href="leads<%= nodeVersion === '8' ? '?node=8' : '' %>"><i class="icon-budicon-289"></i>Leads</a></li>
         <li><i class="icon-budicon-290"></i>Accounts</li>
         <li><i class="icon-budicon-209"></i>Opportunities</li>
         <li><i class="icon-budicon-706"></i>Reports</li>
-        <li><a href="settings"><i class="icon-budicon-329"></i>Settings</a></li>
+        <li class="tutorial step6"><a href="settings<%= nodeVersion  === '8' ? '?node=8' : '' %>"><i class="icon-budicon-329"></i>Settings</a></li>
       </ol>
       <div class="banner">
         <h5>Ready to implement Extend?</h5>
@@ -36,6 +37,15 @@
     </div>
     <div class="container">
       <div class="header">
+        <% if(nodeVersion !== '8'){ %>
+          <div onclick="switchNodeVersion('8')" class="node8">
+            <a href="#">Switch to <strong>Node 8</strong></a>
+          </div>
+        <% } else { %>
+          <div onclick="switchNodeVersion('4')" class="node8">
+            <a href="#">Switch back to <strong>Node 4</strong></a>
+          </div>
+        <% } %>
         <ol>
           <li>
             <a href="https://auth0.com/extend/docs/getting-started#sample-application" target="_blank"><i class="icon-budicon-754"></i>Documentation</a>
@@ -51,55 +61,113 @@
       </div>
       <div class="content">
         <h1>Add New Lead</h1>
-        <div class="form-container ">
+        <div class="form-container tutorial step5">
           <div class="form-content">
             <form class="lead-form">
               <div>
                 <label for="lead">Name</label>
-                <input autofocus type="text" placeholder="Enter lead name..." id="lead" name="name">
+                <input autofocus class="tutorial step1" type="text" placeholder="Enter lead name..." id="lead" name="name">
               </div>
               <div>
                 <label for="opportunity">Value</label>
-                <input type="Number" placeholder="Enter potential value in USD..." id="opportunity" name="value">
+                <input class="tutorial step2" type="Number" placeholder="Enter potential value in USD..." id="opportunity" name="value">
               </div>
               <div>
                 <label for="email">Email</label>
-                <input type="text" placeholder="Enter email..." id="email" name="email">
+                <input class="tutorial step3" type="text" placeholder="Enter email..." id="email" name="email">
               </div>
-              <button id="create" class="button ">Create lead</button>
+              <button id="create" class="button tutorial step4">Create lead</button>
             </form>
             
             <div class="form-result" id="leadResult">
               <h3>RESULT</h3>
-              <pre id="leadRecord"></pre>
+              <pre id="leadRecord" class="tutorial step5"></pre>
             <div>
           </div>
         </div>
-      </div>   
-      <script>
-        $(function () {  
-          $('#create').click(function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-
-            $('#create').attr('disabled', true);
-            $('#create').text('Creating');
-            
-            var data = $('form').serialize();
-
-            $('#newLead').hide();
-            $.post('api/leads', data, (response) => {
-              $('#leadRecord').html(JSON.stringify(response, null, 2));
-              $('#leadResult').show();
-              $('#create').attr('disabled', false);
-              $('#create').text('Create new lead');
-            });
-          });
-        });
-      </script>  
+      </div>             
         
       </div>
     </div>
   </div>
+  <script>    
+    var storage = window.localStorage;
+
+    function switchNodeVersion (version) {
+      var href = window.location.href;
+
+      if (storage) {
+        storage.setItem('ZeroCRMNodeVersion', version);
+      }
+
+      if (version == 8 && (typeof qs('node') === 'undefined' || qs('node') != 8)) {
+        window.location.href = href + (href.indexOf('?') === -1 ? '?' : '&') + 'node=8'
+      } else {
+        window.location.href = href.split('?')[0] + (href.indexOf('mode=tutorial') >= 0 ? '?mode=tutorial' : '');
+      }
+    };
+
+    $(function () {     
+      if (storage) {
+        var version = storage.getItem('ZeroCRMNodeVersion');
+
+        if (version == 8 && (typeof qs('node') === 'undefined' || qs('node') != 8)) {
+          var href = window.location.href;
+          window.location.href = href + (href.indexOf('?') === -1 ? '?' : '&') + 'node=8'
+        }
+      }
+
+      var trip = createInitialTutorial();
+
+      trip.start();
+
+      $(".tutorial.step1").keyup(function (e) {
+        if (e.target.value.toLowerCase() === 'customer') {
+          trip.next(1);
+          $(".tutorial.step2").focus();
+        }
+      });
+
+      $(".tutorial.step2").keyup(function (e) {
+        if (e.target.value == 5000) {
+          trip.next(2);
+          $(".tutorial.step3").focus();
+        }
+      });
+
+      $(".tutorial.step3").keyup(function (e) {
+        if (e.target.value.toLowerCase() == 'john.doe@acme.com') {
+          trip.next(3);
+          $(".tutorial.step4").focus();
+        }
+      });
+
+      $('#create').click(function (e) {
+        var nodeVersion = qs('node');
+        var apiUrl = 'api/leads';
+
+        if (nodeVersion === '8') {
+          apiUrl += '?node=8';
+        }
+
+        e.stopPropagation();
+        e.preventDefault();
+        trip.stop();
+        $('#create').attr('disabled', true);
+        $('#create').text('Creating');
+        
+        var data = $('form').serialize();
+        $('#newLead').hide();
+        $.post(apiUrl, data, (response) => {
+          $('#leadRecord').html(JSON.stringify(response, null, 2));
+          $('#leadResult').show();
+          $('#create').attr('disabled', false);
+          $('#create').text('Create new lead');
+
+         setTimeout(function () { trip.next(4); }, 300);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
