@@ -310,13 +310,13 @@ function createSettingsTutorial() {
     var trip = new Trip([
       { 
         sel : $(".tutorial.step1"), 
-        content : "Most platforms today use webhooks for extensibility. Zero CRM uses Auth0 Extend to allow users to write the extension code in-place instead, and later execute it securely. Click here to edit the on-new-lead custom action.",
+        content : "Most platforms today use webhooks for extensibility. Zero CRM uses Extend to allow users to write the extension code in-place instead, and later execute it securely. Click here to edit the on-new-lead custom action.",
         position : "w",
         animation: 'bounce'
       },
       { 
         sel : $(".tutorial.step2"), 
-        content : "The Auth0 Extend editor provides feature-rich and highly customizable in-product extension development experience. Extensions can be written in Node.js or domain specific languages. Users can manage secrets, access real-time logs, and test the code all from within the Auth0 Extend editor. Try modifying the JSON the code returns, save, then go back to 'Leads' and add a new lead to see your custom action executed.",
+        content : "The Extend editor provides feature-rich and highly customizable in-product extension development experience. Extensions can be written in Node.js or domain specific languages. Users can manage secrets, access real-time logs, and test the code all from within the Extend editor. Try modifying the JSON the code returns, save, then go back to 'Leads' and add a new lead to see your custom action executed.",
         position : "n",
         showCloseBox: true
       }
