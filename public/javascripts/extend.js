@@ -1,4 +1,4 @@
-// Documentation: https://goextend.io/docs//extend-editor#hosting-the-editor-in-your-web-site
+// Documentation: https://goextend.io/docs/extend-editor#hosting-the-editor-in-your-web-site
 function createExtendEditorConfig(options) {
     var editorOptions = {
         token: options.webtaskContext.webtaskToken,
