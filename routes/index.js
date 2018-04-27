@@ -25,7 +25,7 @@ router.get('/leads', function(req, res) {
 });
 
 router.get('/settings', function(req, res, next) {
-    // Documentation: https://github.com/auth0/extend/wiki/Auth0-Extend-User%27s-Guide#mapping-isolation-requirements-onto-webtask-tokens
+    // Documentation: https://goextend.io/docs/mapping-isolation-requirements-onto-webtask-tokens
 
     return async.waterfall([
         (cb) => extend.mapTenantToIsolationScope(req, cb),
@@ -46,7 +46,7 @@ router.get('/settings-old', function(req, res, next) {
 });
 
 router.post('/api/leads', bodyParser.json(), function (req, res, next) {
-    // Documentation: https://github.com/auth0/extend/wiki/Auth0-Extend-User%27s-Guide#invoking-extensions
+    // Documentation: https://goextend.io/docs/invoking-extensions
 
     return async.waterfall([
         (cb) => extend.mapTenantToIsolationScope(req, cb),

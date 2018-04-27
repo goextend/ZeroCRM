@@ -16,5 +16,5 @@
 
 ## Documentation
 
-For more information please see our blog post at [Running ZeroCRM Sample Application](https://auth0.com/extend/docs/getting-started#sample-application).
+For more information please see our blog post at [Running ZeroCRM Sample Application](https://goextend.io/docs/getting-started).
 
