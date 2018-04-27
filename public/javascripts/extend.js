@@ -1,4 +1,4 @@
-// Documentation: https://github.com/auth0/extend/wiki/Auth0-Extend-User%27s-Guide#hosting-the-editor
+// Documentation: https://goextend.io/docs/extend-editor#hosting-the-editor-in-your-web-site
 function createExtendEditorConfig(options) {
     var editorOptions = {
         token: options.webtaskContext.webtaskToken,
