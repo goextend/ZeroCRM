@@ -17,7 +17,7 @@ module.exports = function(lead, cb) {
   };
   
   // If the clearbit_key secret has been set',
-  if (clearbit_key === 'SET CLEARBIT KEY') {
+  if (clearbit_key !== 'SET CLEARBIT KEY') {
     getProfileFromClearbit(lead.email, (err, clearbit) => {
       if (!err) {
        lead.profile.clearbit = clearbit;
