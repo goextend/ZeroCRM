@@ -32,17 +32,14 @@ router.get('/settings', function(req, res, next) {
         (webtaskContext, cb) => {
             return res.render('settings', { 
                 webtaskContext: webtaskContext, 
-                randomBytes: crypto.randomBytes(32).toString('hex'),
-                nodeVersion: req.query.node
+                randomBytes: crypto.randomBytes(32).toString('hex')
             });
         }
     ], next);
 });
 
 router.get('/settings-old', function(req, res, next) {
-    return res.render('settings_old', {
-        nodeVersion: req.query.node
-    });
+    return res.render('settings_old');
 });
 
 router.post('/api/leads', bodyParser.json(), function (req, res, next) {
