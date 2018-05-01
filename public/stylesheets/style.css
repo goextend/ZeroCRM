@@ -694,7 +694,7 @@ html, body {
   text-decoration: none;
 }
 
-.crm .notification-bar {
+.notification-bar {
   background-color: #3445DC;
   padding: 10px 0;
   text-align: center;
@@ -702,7 +702,7 @@ html, body {
   color: white;
 }
 
-.crm .notification-bar a {
+.notification-bar a {
   text-decoration: none;
   color: white;
 }
