@@ -221,13 +221,14 @@ html, body {
   margin-top: 3px;
  }
 
-.crm .container .user .avatar {
-  background: #A9C7FF;
-  border-radius: 100px;
-  height: 30px;
-  width: 30px;
-  display: inline-block;
+ .crm .container .user .user-image {
   margin-left: 21px;
+}
+
+.crm .container .user .user-image img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
 
 .crm .container {
@@ -710,4 +711,58 @@ html, body {
 .notification-bar a {
   text-decoration: none;
   color: white;
+}
+
+.sub-nav {
+  position: absolute;
+  background: white;
+  top: 12.5%;
+  right: 37px;
+  margin: 0;
+  padding: 0;
+  border-radius: 3px;
+  overflow: visible;
+  box-shadow: 0 0px 7px rgba(0,0,0,.2);
+  transition: all .3s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 10;
+}
+
+.sub-nav li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  padding: 5px 10px;
+  min-width: 150px;
+}
+
+.sub-nav li:hover{
+  background: #ededed;
+}
+
+.sub-nav li:fist-child {
+  border-radius: 3px 3px 0 0;
+}
+
+.sub-nav li:last-child {
+  border-radius: 0 0 3px 3px;
+}
+
+.sub-nav li .logout {
+  border-top: 1px solid #ededed;
+}
+
+.sub-nav li a {
+  color: rgba(0,0,0,.64);
+  text-decoration: none;
+  -webkit-font-smoothing: antialiased;
+  padding: 15px;
+}
+
+.user:hover .sub-nav {
+  top: 13%;
+  opacity: 1;
+  visibility: visible;
 }

@@ -21,7 +21,7 @@ router.get('/', function(req, res) {
 });
 
 router.get('/leads', function(req, res) {
-    res.render('index');
+    res.render('index', { user: req.user });
 });
 
 router.get('/settings', function(req, res, next) {
@@ -32,14 +32,15 @@ router.get('/settings', function(req, res, next) {
         (webtaskContext, cb) => {
             return res.render('settings', { 
                 webtaskContext: webtaskContext, 
-                randomBytes: crypto.randomBytes(32).toString('hex')
+                randomBytes: crypto.randomBytes(32).toString('hex'),
+                user: req.user
             });
         }
     ], next);
 });
 
 router.get('/settings-old', function(req, res, next) {
-    return res.render('settings_old');
+    return res.render('settings_old', { user: req.user });
 });
 
 router.post('/api/leads', bodyParser.json(), function (req, res, next) {
