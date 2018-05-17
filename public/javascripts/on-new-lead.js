@@ -2,7 +2,7 @@
 // Require any Node.js modules that you added here.
 // You can access secrets using: module.exports.secrets
 
-// To use Clearbit add a clearbit_key secret with your clearbit key as the value.
+// To use Clearbit set the clearbit_key secret with your clearbit key as the value.
 // You can signup at https://dashboard.clearbit.com/signup
 
 var clearbit_key = module.webtask.secrets.clearbit_key;
