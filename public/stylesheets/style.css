@@ -716,7 +716,7 @@ html, body {
 .sub-nav {
   position: absolute;
   background: white;
-  top: 12.5%;
+  top: 10%;
   right: 37px;
   margin: 0;
   padding: 0;
@@ -727,6 +727,7 @@ html, body {
   opacity: 0;
   visibility: hidden;
   z-index: 10;
+  cursor: pointer;
 }
 
 .sub-nav li {
@@ -759,10 +760,11 @@ html, body {
   text-decoration: none;
   -webkit-font-smoothing: antialiased;
   padding: 15px;
+  line-height: 28px;
 }
 
 .user:hover .sub-nav {
-  top: 13%;
+  top: 11%;
   opacity: 1;
   visibility: visible;
 }
