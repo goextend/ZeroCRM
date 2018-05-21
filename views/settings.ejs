@@ -18,7 +18,7 @@
   <link rel="stylesheet" type="text/css" href="stylesheets/trip.css"/>
 </head>
 <body>
-    <div class="notification-bar"><a href="https://goextend.io/docs/zerocrm-walkthrough" target="_blank">Click here to see a step-by-step walkthrough of using ZERO CRM</a></div>
+    <div class="notification-bar"><a href="https://goextend.io/docs/zerocrm-walkthrough#walkthrough" target="_blank">Click here to see a step-by-step walkthrough of using ZERO CRM</a></div>
   <div class="crm">
     <div class="sidebar">
       <div class="logo">
@@ -48,8 +48,16 @@
           </li>
         </ol>
         <div class="user">
-          <div class="avatar"></div>
+          <div class="user-image">
+              <img src="<%- user._json.picture %>">
+          </div>
           <i class="icon-budicon-460"></i>
+          <ul class="sub-nav">
+            <li>
+              <a href="/logout">Logout</a>
+            </li>
+            </ul>
+          </ul>
         </div>
       </div>
      
