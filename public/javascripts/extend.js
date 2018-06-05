@@ -166,3 +166,106 @@ function createRuntimeConfig(options) {
 
     return editorOptions;
 }
+
+function qs(key) {
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars[key];
+}
+
+function createTripMock() {
+    return {
+        start: function () {},
+        next: function () {},
+        stop: function () {},
+    };
+}
+
+function createInitialTutorial() {
+    var tutorialUrl = 'settings?mode=tutorial';
+    
+    if (qs('mode') !== 'tutorial') {
+        return createTripMock();
+    }
+
+    if (qs('node') === '8') {
+        tutorialUrl = 'settings?node=8&mode=tutorial'
+    }
+
+    $('.tutorial.step6 a')
+        .attr('href', tutorialUrl);
+
+    var trip = new Trip([
+        { 
+          sel : $(".tutorial.step1"), 
+          content : "Enter 'Customer' as a sample customer name.",
+          position : "e",
+          animation: 'bounce'
+        },
+        { 
+          sel : $(".tutorial.step2"), 
+          content : "Enter '5000' as the value of the prospective deal.",
+          position : "e" 
+        },
+        { 
+          sel : $(".tutorial.step3"), 
+          content : "Enter 'john.doe@acme.com' as the value of email",
+          position : "e" 
+        },
+        { 
+          sel : $(".tutorial.step4"), 
+          content : "Click here.",
+          position : "e" 
+        },
+        {
+          sel : $(".tutorial.step5"), 
+          content: 'JSON result is returned showing information about the newly created lead.',
+          position : "n",
+          delay : 5000
+        },
+        {
+          sel : $(".tutorial.step6"), 
+          content: 'Zero CRM can be extended via custom actions to intercept the lead creation event, and implement custom logic. The Settings screen is where you can configure custom actions.',
+          position : "e",
+          expose : true
+          // delay: 1000
+        }
+      ], {
+        delay : -1,
+        tripTheme : "white"
+      });
+
+    return trip;
+}
+
+function createSettingsTutorial() {
+    if (qs('mode') !== 'tutorial') {
+        return createTripMock();
+    }
+
+    var trip = new Trip([
+      { 
+        sel : $(".tutorial.step1"), 
+        content : "Most platforms today use webhooks for extensibility. Zero CRM uses Extend to allow users to write the extension code in-place instead, and later execute it securely. Click here to edit the on-new-lead custom action.",
+        position : "w",
+        animation: 'bounce'
+      },
+      { 
+        sel : $(".tutorial.step2"), 
+        content : "The Extend editor provides feature-rich and highly customizable in-product extension development experience. Extensions can be written in Node.js or domain specific languages. Users can manage secrets, access real-time logs, and test the code all from within the Extend editor. Try modifying the JSON the code returns, save, then go back to 'Leads' and add a new lead to see your custom action executed.",
+        position : "n",
+        showCloseBox: true
+      }
+    ], {
+      delay : -1,
+      tripTheme : "white"
+    });
+
+    return trip;
+}
