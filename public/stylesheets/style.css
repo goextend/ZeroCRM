@@ -222,7 +222,16 @@ html, body {
   margin-top: 3px;
  }
 
- .crm .container .user .user-image {
+.crm .container .user .avatar {
+  background: #A9C7FF;
+  border-radius: 100px;
+  height: 30px;
+  width: 30px;
+  display: inline-block;
+  margin-left: 21px;
+}
+
+.crm .container .user .user-image {
   margin-left: 21px;
 }
 

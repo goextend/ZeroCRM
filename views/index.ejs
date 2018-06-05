@@ -47,11 +47,13 @@
           </li>
         </ol>
         <div class="user">
-          <div class="user-image">
-              <%if (user) { %>
-                <img src="<%- user._json.picture %>">
-              <% } %>
-          </div>
+          <%if (user) { %>
+            <div class="user-image">        
+              <img src="<%- user._json.picture %>">
+            </div>
+          <% } else { %>
+            <div class="avatar"></div>
+          <% } %>
           <i class="icon-budicon-460"></i>
           <ul class="sub-nav">
             <li>
