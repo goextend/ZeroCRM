@@ -724,7 +724,7 @@ html, body {
 .sub-nav {
   position: absolute;
   background: white;
-  top: 9%;
+  top: 10%;
   right: 37px;
   margin: 0;
   padding: 0;
@@ -743,8 +743,9 @@ html, body {
   margin: 0;
   padding: 0;
   white-space: nowrap;
-  padding: 5px 10px;
+  padding: 5px 0 5px 10px;
   min-width: 150px;
+  box-sizing: border-box;
 }
 
 .sub-nav li:hover{
@@ -767,12 +768,14 @@ html, body {
   color: rgba(0,0,0,.64);
   text-decoration: none;
   -webkit-font-smoothing: antialiased;
-  padding: 15px;
+  display: block; 
+  width: 100%; 
+  padding: 0 0 0 10px;
   line-height: 28px;
 }
 
 .user:hover .sub-nav {
-  top: 10%;
+  top: 11%;
   opacity: 1;
   visibility: visible;
 }
