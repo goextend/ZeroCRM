@@ -16,5 +16,5 @@
 
 ## Documentation
 
-* For a step-by-step guide please see the [Zero CRM Walkthrough] (https://goextend.io/docs/zerocrm-walkthrough).
-* For general Extend docs go [here] (https://goextend.io/docs)
+* For a step-by-step guide please see the [Zero CRM Walkthrough](https://goextend.io/docs/zerocrm-walkthrough).
+* For general Extend docs go [here](https://goextend.io/docs)
